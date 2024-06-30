@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
+require('dotenv').config();
 
 // get utils:
 generateUniqueKey = require('./utils/keyGenerator');
@@ -23,7 +24,7 @@ const PORT = 3001;
 
 // constant variables
 const databasePath = './projects.json';
-const client_id = "f0txET85_XFVTQzEJt-j3w5KHsbaJIdfz_nwyxFhlv4";  // Unsplash API client ID
+const client_id = process.env.UNSPLASH_API_KEY;  // Unsplash API client ID
 
 // Middleware
 app.use(bodyParser.json()); // Parse JSON bodies
