@@ -85,7 +85,7 @@ async function insertProject (project) {
 }
 
 // Assignment functions:
-async function CreateProject(projectDetails) {
+async function CreateProjectInDatabase(projectDetails) {
 
     // TODO: validate the newProjectObject
 
@@ -108,11 +108,11 @@ async function CreateProject(projectDetails) {
 }
 
 // Route functions for project
-async function CreateProjectRoute(req,res) {
+async function CreateProject(req,res) {
 
     const newProjectObject = req.body;
 
-    const result = await CreateProject(newProjectObject);
+    const result = await CreateProjectInDatabase(newProjectObject);
 
     res.status(result.status).json(result);
 }
@@ -206,7 +206,7 @@ app.get('/projects/view', (req,res) => {
 })
 
 // Routes for assignment
-app.post('/project', CreateProjectRoute);
+app.post('/project', CreateProject);
 app.put('/project/:Project_id', updateProject);
 app.post('/project/:Project_id/images', AddImagesToProject);
 app.get('/project/:Project_id', getProject);
