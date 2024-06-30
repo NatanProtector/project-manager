@@ -1,0 +1,126 @@
+<!-- Natan Protector 205438542 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css"> <!-- Link to external CSS file for styling -->
+    <title>Distrubuted Systems Ex3</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h2 class="main-title">Project manager</h2> <!-- Main title -->
+            <a href="../projects/view">View Projects</a>
+            <h3 class="sub-title">Created by <b class="animated-element">Natan Protector</b> 205438542</h3> <!-- Sub title with animated text -->
+        </div>
+    </header>   
+
+
+    <!-- Container for main form -->
+
+    <h1>New Project</h1>
+
+    <h3>Select Photos</h3>
+
+    <!-- Container for the image selection -->
+    <div class="interface-container">
+        <!-- Input section -->
+        <div class="input">
+            <input type="text" name="txtinput" id="txtinput" placeholder="Search..">
+            <div class="display-paragraph">
+                <div class="img-container">
+                    <!-- Starts empty-->
+                </div>
+                <p class="display-txt">
+                    <!-- Starts empty-->
+                </p>
+                <button id="select-button">Select</button>
+            </div>
+            <div class="page-control">
+                <button id="page-button" class= "button-back">
+                    Back
+                </button>
+                <button id="page-button" class="button-next">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Display section -->
+        <div class="display">
+            <div class="grid-container">
+                <!-- Placeholder for displaying results -->
+            </div>
+        </div>
+    </div>
+
+
+    <h3>Project Details</h3>
+
+
+    <!-- Container for the form -->
+    <div class="interface-container">
+        <div class="form-container"> 
+        
+            <div class="project-form-container">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" id="projectName" name="projectName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="managerName">Manager Name</label>
+                    <input type="text" id="managerName" name="managerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="managerEmail">Manager Email</label>
+                    <input type="email" id="managerEmail" name="managerEmail" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="startDate">Project Start Date</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+
+                <div class="form-group last-item">
+                    <label for="summary">Summary</label>
+                    <textarea id="summary" name="summary" rows="4" required></textarea>
+                </div>
+            </div>
+            
+            <div class="staff-form-container">
+                <div class="form-group">
+                    <label for="staffName">Name</label>
+                    <input type="text" id="staffName" name="staffName">
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffEmail">Email</label>
+                    <input type="email" id="staffEmail" name="staffEmail">
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffRole">Role</label>
+                    <input type="text" id="staffRole" name="staffRole">
+                </div>
+
+                <button id="add-staff-button">Add</button>
+            </div>
+
+            <div class="selected-staff-display">
+                <!-- Placeholder for displaying selected staff -->
+            </div>
+
+            <button id="submit-button">Submit</button>
+        </div>
+    </div>
+
+    <!-- Link to external jquerry library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to external JavaScript file for functionality -->
+    <script src="../NewProject/script.js"></script>
+
+</body>
+</html>
