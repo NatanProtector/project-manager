@@ -18,14 +18,17 @@ header {
     margin: 0 auto; 
     height: 10vh; /* Header height is 10% of the viewport height */
 }
-
 .header-container {
     display: flex;
-    justify-content: space-between; /* Distribute items evenly along the main axis */
-    align-items: center; /* Center items vertically */
-    width: 80%; /* Container takes up 80% of the header width */
-    margin: 0 auto; /* Center the container horizontally */
+    justify-content: space-evenly; 
+    align-items: center; 
+    width: 80%;
+    margin: 0 auto;
+}
 
+.header-container a {
+   color: white; 
+   margin: 20px;
 }
 
 .main-title {
@@ -88,10 +91,10 @@ header {
 
 .img-container {
     height: 50%;
-    display: flex; /* Use flexbox to center the image inside the container */
-    align-items: center; /* Center the image vertically */
-    justify-content: center; /* Center the image horizontally */
-    overflow: hidden; /* Ensure no overflow if the image exceeds container size */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .form-container {
@@ -143,22 +146,108 @@ header {
     flex-direction: column; /* Arrange items horizontally */
     overflow-y: auto;
     overflow-x: hidden; 
+}
 
+.project-display {
+    border-radius: 5px;
+    background-color: rgb(255, 201, 135);
+    width: 95%;
+    margin-top: 20px;
+    height: 80vh; /* Container height is 80% of the viewport height */
+    display: flex; 
+    flex-direction: column; /* Arrange items horizontally */
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.project-staff-display {
+    background-color: aqua;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.project-image-display {
+    background-color: #ffabab;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    overflow-x: auto; /* Add horizontal scroll bar when needed */
+    overflow-y: hidden; /* Hide vertical scrollbar if not needed */
+    flex-wrap: nowrap; /* Prevent items from wrapping */
+}
+
+.staff {
+    border: 1px solid black; /* Black border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px;
+    margin: 3px; 
+    background-color: #f4f4e9; /* Light beige background color */
+    text-align: center; /* Center text horizontally */
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    display: flex; /* Use flexbox for vertical centering */
+    flex-direction: column;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width:380px;
+    height: 122px;
 }
 
 .project {
     border: 1px solid black;
     background-color: azure;
     width: 100%;
-    height: 10%;
+    height: 30%;
     font-size: 28px;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
+#add-photos-popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 97%;
+    height: 97%;
+    background-color: rgb(255, 201, 135);
+    border-radius: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-/* Additional CSS for the last item to span two columns */
+    z-index: 3;
+}
+
+.Project-Popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 95%;
+    background-color: rgb(255, 201, 135);
+    border-radius: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2;
+}
+
 .last-item {
     grid-column: span 2;
 }
@@ -201,8 +290,7 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center
-    
+    align-items: center;
 }
 
 #select-button {
@@ -256,7 +344,8 @@ header {
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     width:190px;
-    height: 122px;
+    height: 140px;
+    flex-direction: column;
 }
 
 .image {
@@ -264,6 +353,16 @@ header {
     height: 100%; /* Make the image fill the grid item */
     object-fit: cover; /* Cover the entire area of the grid item, maintaining aspect ratio */
     border-radius: 10px; /* Match the border-radius of the grid item */
+}
+
+.project-manager {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    gap:10px
 }
 
 /* Style the scrollbar */

@@ -16,6 +16,110 @@
     </header>  
     <h1>View Projects</h1>
 
+    <div id="add-photos-popup">
+        <button id="close-add-photos-button">Close</button>
+        <div class="interface-container">
+            <!-- Input section -->
+            <div class="input">
+                <input type="text" name="txtinput" id="txtinput" placeholder="Search..">
+                <div class="display-paragraph">
+                    <div class="img-container">
+                        <!-- Starts empty-->
+                    </div>
+                    <p class="display-txt">
+                        <!-- Starts empty-->
+                    </p>
+                    <button id="select-button">Select</button>
+                </div>
+                <div class="page-control">
+                    <button id="page-button" class= "button-back">
+                        Back
+                    </button>
+                    <button id="page-button" class="button-next">
+                        Next
+                    </button>
+                </div>
+            </div>
+    
+            <!-- Display section -->
+            <div class="display">
+                <div class="grid-container">
+                    <!-- Placeholder for displaying results -->
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <div class="Project-Popup" id="Project-Popup">
+        <div>
+            <h2 id="Project-Name-popup">Project Name:</h1>
+            <h3 id="Project-Manager-popup">Project Manager</h1>
+            <h3 id="Project-Start-Date-popup">Start Date</h1>
+            <h3>Description:</h1>
+            <p id="Project-Description-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, similique enim. Ipsum eos eveniet voluptatibus aspernatur adipisci impedit odit deserunt cupiditate placeat omnis. Veniam ipsa dolores fugit neque perferendis consequatur!</p>
+        </div>
+        <h4>Staff</h4>
+        <div class="project-staff-display">
+            <!-- placeholder for staff -->
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+             <div class="staff">
+                <label class="staffName">Name: guy</label>
+                <label class="staffEmail">Email: natanprotector@outlook.com</label>
+                <label class="staffRole">Role: village idiot</label>
+             </div>
+        </div>
+
+        <div class="project-image-display">
+            <!-- placeholder for images -->
+            <div class="grid-item">
+                <img class="image" src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MTQ3NDh8MHwxfHNlYXJjaHwyfHxjYXR8ZW58MHx8fHwxNzE5NzQ1OTM5fDA&ixlib=rb-4.0.3&q=80&w=200" alt="">
+                <button>Delete</button>
+            </div>
+        </div>
+        <div class="buttons-project">
+            <button id="edit-project-button">Edit</button>
+            <button id="add-photos-button">Add Photos</button>
+            <button id="delete-project-button">Delete</button>
+            <button id="close-project-button">Close</button>
+        </div>
+    </div>
+
+    <label for="sort-select">Sort By</label>
+    <select name="sort-select" id="">
+        <option value="project name">project name</option>
+        <option value="manager name">manager name</option>
+        <option value="start date">start date</option>
+    </select>
+
     <div class="interface-container">
 
         <div class="project-container">
@@ -23,6 +127,7 @@
             <!-- placeholder for projects -->
     
         </div>
+
     </div>
 
     <!-- Link to external jquerry library -->

@@ -4,6 +4,20 @@
  * - do i need to hide the unsplash api key?
  * - in the function createProject, what does it mean return status? return an integer?
  * - does getProject display the page or does it get the details for all projects? ?
+ * - in deleteImageFromProject what is the paramater imageId? there is no field called image id
+ */
+
+/** PROJECT MISUNDERSTOOD COMPLETLY
+ * - A PROJECT IS CREATED INITIALLY WITH NO PHOTOS
+ *   PHOTOS ARE ADDED LATER
+ * - THE ASSIGMENT FUNCTIONS DO NOT ACT AS THE ROUTES, ROUTES ARE IMPLEMENTED SEPERATLY
+ * - PROJECTS DISPLAY REQUIRES A MORE INFORMATION, SEE ASSIGNMENT DOCUMENTATION
+ * - 
+ */
+
+/** TODO:
+ * - Add validation to every function
+ * - more details are nee
  */
 
 const express = require('express');
@@ -107,51 +121,93 @@ async function CreateProjectInDatabase(projectDetails) {
     }
 }
 
+async function CreateProject(ProjectDetails) {
+
+    const result = await CreateProjectInDatabase(ProjectDetails);
+
+    return result;
+}
+
 // Route functions for project
-async function CreateProject(req,res) {
+async function CreateProjectRoute(req,res) {
 
     const newProjectObject = req.body;
 
-    const result = await CreateProjectInDatabase(newProjectObject);
+    const result = await CreateProject(newProjectObject);
 
-    res.status(result.status).json(result);
+    res.json(result);
 }
 
-function updateProject(req, res) {
+function updateProject(projectDetails) {
+    //To be implemented
+}
+
+function updateProjectRoute(req, res) {
     // Function to update project details
-    // To be implemented
+    
     res.send('Update Project: Not yet implemented');
 }
 
-function AddImagesToProject(req, res) {
+function AddImagesToProject(ImageDetails, Project_id) {
+    // To be implemented
+} 
+
+function AddImagesToProjectRoute(req, res) {
     // Function to add images to a project
     // To be implemented
     res.send('Add Images to Project: Not yet implemented');
 }
 
-function getProject(req, res) {
+async function getProject(id_project) {
+
+}
+
+async function getProjectRoute(req, res) {
     // Function to get details of a specific project
-    // To be implemented
-    res.send('Get Project: Not yet implemented');
-}
 
-async function getProjects(req, res) {
-    // Function to get all projects
     const projects = await readJsonFile(databasePath);
-    res.status(200).json(projects);
+
+    const projectId = req.params.Project_id;
+    const project = projects[projectId];
+
+    if (!project)
+        res.status(404).send('Project not found');
+    else
+        res.send(project);
 }
 
-function deleteImageFromProject(req, res) {
+
+// Function for assignment
+async function getProjects() {
+    const projects = await readJsonFile(databasePath);
+    return projects;
+}
+
+async function getProjectsRoute(req,res) {
+    const projects = await getProjects();
+    res.status(200).json(projects);
+};
+
+function deleteImageFromProject(Project_id,  ImageId) {
+
+};
+
+
+function deleteImageFromProjectRoute(req, res) {
     // Function to delete an image from a project
     // To be implemented
     res.send('Delete Image from Project: Not yet implemented');
+};
+
+function deleteProject(Project_id) {
+    // To be implemented
 }
 
-function deleteProject(req, res) {
+function deleteProjectRoute(req, res) {
     // Function to delete a project
     // To be implemented
     res.send('Delete Project: Not yet implemented');
-}
+};
 
 
 const getPhotos = async function(req,res) {
@@ -205,14 +261,18 @@ app.get('/projects/view', (req,res) => {
     res.sendFile(path.join(__dirname, 'public', 'ViewProjects', 'index.html'));
 })
 
+// app.get('/project/view/:Project_id', (req,res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'ViewProject', 'index.html'));
+// })
+
 // Routes for assignment
-app.post('/project', CreateProject);
-app.put('/project/:Project_id', updateProject);
-app.post('/project/:Project_id/images', AddImagesToProject);
-app.get('/project/:Project_id', getProject);
-app.get('/projects', getProjects);
-app.delete('/project/:Project_id/image/:ImageId', deleteImageFromProject);
-app.delete('/project/:Project_id', deleteProject);
+app.post('/project', CreateProjectRoute);
+app.put('/project/:Project_id', updateProjectRoute);
+app.post('/project/:Project_id/images', AddImagesToProjectRoute);
+app.get('/project/:Project_id', getProjectRoute);
+app.get('/projects', getProjectsRoute);
+app.delete('/project/:Project_id/image/:ImageId', deleteImageFromProjectRoute);
+app.delete('/project/:Project_id', deleteProjectRoute);
 
 // Route for getting photos
 app.get('/photos/:query/:page', getPhotos);
