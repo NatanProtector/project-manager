@@ -1,6 +1,9 @@
 /**
  * Quesstions for miriam:
  * - timestamp not in miliseconds right?
+ * - is axios ok for requests on server side?
+ * - does npm start need to install the dependencies as well?
+ * - how to submit the assignment? will zipping without the modules work?
  */
 
 /** PROJECT MISUNDERSTOOD COMPLETLY
@@ -13,10 +16,8 @@
 
 /** TODO:
  * - Add validation to every function
- * - Data should be kept as time stamp!!!
- * - return 404 for every resource that does not exist
- * - images need an id
  * - at least one staff memeber is required
+ * - add sorting to projects
  */
 
 const express = require('express');
@@ -116,24 +117,17 @@ async function CreateProjectInDatabase(projectDetails) {
     }
 }
 
-async function CreateProject(ProjectDetails) {
-
-    const result = await CreateProjectInDatabase(ProjectDetails);
-
-    return result;
-}
 
 // Route functions for project
 async function CreateProjectRoute(req,res) {
 
     const newProjectObject = req.body;
 
-    const result = await CreateProject(newProjectObject);
+    const result = await CreateProjectInDatabase(newProjectObject);
 
     res.json(result.project.id);
 }
-
-function updateProject(projectDetails) {
+async function updateProject(projectDetails) {
     //To be implemented
     return {
         status: 500,
@@ -144,12 +138,14 @@ function updateProject(projectDetails) {
 async function updateProjectRoute(req, res) {
     // Function to update project details
 
-    const {projectDetails} = req.body;
+    const projectDetails = req.body;
+
+    console.log(projectDetails);
 
     var result;
 
     try {
-        result = updateProject(projectDetails);
+        result = await updateProject(projectDetails);
     } catch (err) {
         result = {
             status: 500,
@@ -192,18 +188,18 @@ async function AddImageToProject(ImageDetails, Project_id) {
 
 } 
 
-function AddImagesToProjectRoute(req, res) {
+async function AddImagesToProjectRoute(req, res) {
     // Function to add images to a project
     // To be implemented
 
-    const {image} = req.body;
+    const imageInfo = req.body;
 
-    const {project_id} = req.params;
+    const {Project_id} = req.params;
 
     var result;
 
     try {
-        result = AddImageToProject(projectDetails, project_id);
+        result = await AddImageToProject(imageInfo, Project_id);
     } catch (err) {
         result = {
             status: 500,
@@ -212,8 +208,6 @@ function AddImagesToProjectRoute(req, res) {
     }
 
     res.status(result.status).send(result.message);
-
-    res.send('Add Images to Project: Not yet implemented');
 }
 
 async function getProject(id_project) {
@@ -230,7 +224,7 @@ async function getProjectRoute(req, res) {
 
     const projectId = req.params.Project_id;
 
-    const project = getProject(projectId);
+    const project = await getProject(projectId);
 
     if (!project)
         res.status(404).send('Project not found');
@@ -279,7 +273,7 @@ async function deleteImageFromProject(Project_id,  ImageId) {
     // remove the photo
     projects[Project_id].images.splice(imageIndex, 1);
 
-    await writeJsonFile(projects);
+    await writeJsonFile(databasePath,projects);
 
     return {
         status: 200,
@@ -289,15 +283,15 @@ async function deleteImageFromProject(Project_id,  ImageId) {
 };
 
 //:Project_id/images/:ImageId
-function deleteImageFromProjectRoute(req, res) {
+async function deleteImageFromProjectRoute(req, res) {
     // Function to delete an image from a project
    
-    const {project_id, image_id} = req.params;
+    const {Project_id, Image_id} = req.params;
 
     var result;
     
     try {
-        result = deleteImageFromProject(project_id, image_id);
+        result = await deleteImageFromProject(Project_id, Image_id);
     } catch (err) {
         result = {
             status: 500,
@@ -308,9 +302,9 @@ function deleteImageFromProjectRoute(req, res) {
     res.status(result.status).send(result.message);
 };
 
-function deleteProject(Project_id) {
+async function deleteProject(Project_id) {
 
-    const projects = readJsonFile(databasePath);
+    const projects = await readJsonFile(databasePath);
 
     const project = projects[Project_id];
 
@@ -323,8 +317,8 @@ function deleteProject(Project_id) {
 
     // remove the project
     delete projects[Project_id];
-
-    writeJsonFile(projects);
+    
+    await writeJsonFile(databasePath, projects);
 
     return {
         status: 200,
@@ -332,14 +326,14 @@ function deleteProject(Project_id) {
     }
 }
 
-function deleteProjectRoute(req, res) {
+async function deleteProjectRoute(req, res) {
     // Function to delete a project
     const project_id = req.params.Project_id;
 
     var result;
 
     try {
-        result = deleteProject(project_id);
+        result = await deleteProject(project_id);
     } catch (err) {
         result = {status: 500, message: 'Delete Project: Internal server error'}
     }
@@ -390,8 +384,20 @@ const getPhotosFromUnsplash = async function(query_string, client_id, currentPag
     });
 }
 
+app.get('/projects/edit/:Project_Id', async (req,res) => {
+
+    const Project_id = req.params.Project_Id;
+
+    const projects = await readJsonFile(databasePath);
+
+    if (!projects[Project_id])
+        res.status(404).send('404: Project not found');
+    else
+        res.sendFile(path.join(__dirname, 'public', 'EditProject', 'index.html'));
+});
+
 // get routes for displaying the pages
-app.get('/project/new',(req,res) => {
+app.get('/projects/new',(req,res) => {
     res.sendFile(path.join(__dirname, 'public' ,'NewProject' ,'index.html'));
 });
 
@@ -405,7 +411,7 @@ app.put('/projects/:Project_id', updateProjectRoute);
 app.post('/projects/:Project_id/images', AddImagesToProjectRoute);
 app.get('/projects/:Project_id', getProjectRoute);
 app.get('/projects', getProjectsRoute);
-app.delete('/projects/:Project_id/images/:ImageId', deleteImageFromProjectRoute);
+app.delete('/projects/:Project_id/images/:Image_id', deleteImageFromProjectRoute);
 app.delete('/projects/:Project_id', deleteProjectRoute);
 
 // Route for getting photos

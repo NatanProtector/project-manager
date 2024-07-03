@@ -26,8 +26,9 @@ const projectContainer = document.querySelector('.project-container');
 // List of projects
 var projects = [];
 
-selectedProject = null;
+var selectedProjectId = null;
 
+var currentlySelectedProject = null;
 
 // Project display popup
 const projectName = document.getElementById('Project-Name-popup');
@@ -36,6 +37,7 @@ const startDate = document.getElementById('Project-Start-Date-popup');
 const description = document.getElementById('Project-Description-popup');
 const staffDisplay = document.getElementById('project-staff-display');
 const imageDisplay = document.getElementById('project-image-display'); 
+const editButton = document.getElementById('edit-project-button');
 
 // ===== Functions for adding image =================================================================================================
 
@@ -266,13 +268,55 @@ const handleDisplayForInput = function(val) {
     }
 }
 
+const addProjectImage = function(photoInfo, Project_id) {
+
+    return new Promise((resolve, reject) => {
+        const apiUrl = `/projects/${Project_id}/images`;
+        $.ajax({
+            url: apiUrl,
+            method: 'POST',
+            data: JSON.stringify(photoInfo),
+            contentType: 'application/json',
+            success: function(response) {
+                resolve(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status >= 400 && jqXHR.status < 500) {
+                    reject(new Error(`Client Side Error! status: ${jqXHR.status}`));
+                }
+                else if (jqXHR.status >= 500 && jqXHR.status < 600) {
+                    reject(new Error(`Server Side Error! status: ${jqXHR.status}`));
+                }
+                else {
+                    reject(new Error(`Error! status: ${jqXHR.status} - ${textStatus}: ${errorThrown}`));
+                }
+            }
+        }); 
+    });
+}
+
+
+const addPhoto = async function(photoInfo, project) {
+    try {
+        await addProjectImage(photoInfo, project.id);
+        project.images.push(photoInfo);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
 // Select photo
-const selectClicked = function(event) {
-    if (currentlySelectedGridItem != null) {
+const selectClicked = async function(event) {
+    if (currentlySelectedGridItem != null &&
+        currentlySelectedImageInfo != null &&
+        currentlySelectedProject != null
+    )
+    {
 
-        // TODO Add photo to project
-        console.log(currentlySelectedImageInfo);
+        await addPhoto(currentlySelectedImageInfo, currentlySelectedProject);
+
+        displayProjectInPopup(currentlySelectedProject);
 
         closeAddImages();
 
@@ -294,12 +338,52 @@ const openAddImages = function() {
     addPhotos.style.display = 'flex';
 }
 
+const deleteProject = function(project_id) {
+    return new Promise((resolve, reject) => {
+        const apiUrl = `./projects/${project_id}`;
+        $.ajax({
+            url: apiUrl,
+            method: 'DELETE',
+            success: function(response) {
+                resolve(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status >= 400 && jqXHR.status < 500) {
+                    reject(new Error(`Client Side Error! status: ${jqXHR.status}`));
+                }
+                else if (jqXHR.status >= 500 && jqXHR.status < 600) {
+                    reject(new Error(`Server Side Error! status: ${jqXHR.status}`));
+                }
+                else {
+                    reject(new Error(`Error! status: ${jqXHR.status} - ${textStatus}: ${errorThrown}`));
+                }
+            }
+        }); 
+    });
+}
+
+const deleteProjectHandler = async function() {
+    if (selectedProjectId != null) {
+        try {
+            await deleteProject(selectedProjectId);
+            location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
 // ===== Event Listeners ======================================================================================================
+
+const editProject = function() {
+    if (selectedProjectId != null)
+        window.location.href = `/projects/edit/${selectedProjectId}`;
+}
 
 const closeProjectPopup = function() {
     var projectPopup = document.getElementById('Project-Popup');
     projectPopup.style.display = 'none';
-    selectedProject = null;
+    selectedProjectId = null;
+    currentlySelectedProject = null;
 }
 
 // Add event listener to the button
@@ -311,12 +395,35 @@ backButton.addEventListener('click', backClicked);  // Add click event listener 
 
 selectButton.addEventListener('click', selectClicked); // Add click event listener to select button
 
+editButton.addEventListener('click', editProject);
+
 document.getElementById('close-add-photos-button').addEventListener('click', closeAddImages); // Add click event listener to close button
 
 document.getElementById('close-project-button').addEventListener('click', closeProjectPopup); // Add click event listener to close button
 
 document.getElementById('add-photos-button').addEventListener('click', openAddImages);
+
+document.getElementById('delete-project-button').addEventListener('click', deleteProjectHandler);
+
 // ===== Functions for projects ================================================================================================================
+
+const deleteImageFromProjectRoute = async function(imageId, projectId) {
+
+    return new Promise((resolve, reject) => {
+        const apiUrl = `/projects/${projectId}/images/${imageId}`;
+        
+        $.ajax({
+            url: apiUrl,
+            method: 'DELETE',
+            success: function(response) {
+                resolve(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                reject(new Error(`Error deleting image. Status: ${jqXHR.status} - ${textStatus}: ${errorThrown}`));
+            }
+        });
+    });
+};
 
 const clearProjectDisplay = function() {
     projectName.innerHTML = "";
@@ -367,11 +474,26 @@ const displayProjectInPopup = function(project) {
         imageElement.classList.add('image');
 
         const deleteButton = document.createElement('button');
+        deleteButton.style.backgroundColor = 'red';
+        deleteButton.style.color = 'white';
         deleteButton.innerHTML = 'Delete'
 
+        deleteButton.addEventListener('click',async (target) => {
 
-        deleteButton.addEventListener('click',() => {
-            console.log(`deleting image: `, image);
+            if (selectedProjectId != null) {
+                try {
+                    await deleteImageFromProjectRoute(image.id, selectedProjectId);
+                    imageContainer.remove();
+                    const projectOfPhoto = projects.find((project => project.id == selectedProjectId));
+                    var result = projectOfPhoto.images.filter(
+                        (imageInProject) => imageInProject.id != image.id
+                    );
+
+                    projectOfPhoto.images = result;
+                } catch (err) {
+                    console.log(err);
+                }   
+            }
         })
 
         imageContainer.appendChild(imageElement);
@@ -406,6 +528,13 @@ const createProjectElement = function(project) {
     startDate.className = 'start-date';
     startDate.textContent = `Start date: ${project.start_date}`;
 
+    const labelContainer = document.createElement('div');
+    labelContainer.className = 'label-container';
+    labelContainer.appendChild(projectId);
+    labelContainer.appendChild(projectName);
+    labelContainer.appendChild(managerName);
+    labelContainer.appendChild(startDate);
+
 
     const description = document.createElement('P');
     description.className = 'description';
@@ -418,20 +547,32 @@ const createProjectElement = function(project) {
     viewButton.textContent = 'View';
     viewButton.style.display = "block"
 
-    // Add open project popup event listener
-    viewButton.addEventListener('click', () => {
+    // Append the project elements to the project container
+    // projectElement.appendChild(projectId);
+    // projectElement.appendChild(projectName);
+    // projectElement.appendChild(managerName);
+    // projectElement.appendChild(startDate);
+    projectElement.appendChild(labelContainer);
+    projectElement.appendChild(description);
+
+
+    projectElement.addEventListener('click', () => {
         var projectPopup = document.getElementById('Project-Popup');
         projectPopup.style.display = 'flex';
+        selectedProjectId = project.id;
+        currentlySelectedProject = project;
         displayProjectInPopup(project);
     });
 
-    // Append the project elements to the project container
-    projectElement.appendChild(projectId);
-    projectElement.appendChild(projectName);
-    projectElement.appendChild(managerName);
-    projectElement.appendChild(startDate);
-    projectElement.appendChild(description);
-    projectElement.appendChild(viewButton);
+    projectElement.addEventListener('mouseover', () => {
+        projectElement.style.cursor = 'pointer';
+        projectElement.style.backgroundColor = 'lightgray';
+    });
+
+    projectElement.addEventListener('mouseout', () => {
+        projectElement.style.cursor = 'default';
+        projectElement.style.backgroundColor = 'white';
+    });
 
     return projectElement;
 }
