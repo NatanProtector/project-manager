@@ -510,7 +510,6 @@ const displayProjectInPopup = function(project) {
         imageDisplay.appendChild(imageContainer);
         
     });
-
 } 
 
 const createProjectElement = function(project) {
@@ -622,7 +621,12 @@ const getProjects = function() {
 const populateProjects = async function() {
 
     // Get projects from database and push each project to the projects array
-    Object.values(await getProjects()).forEach((value) => {
+
+    const projectsObject = await getProjects();
+
+    console.log(projectsObject);
+
+    Object.values(projectsObject).forEach((value) => {
         projects.push(value);
     });
 

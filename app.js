@@ -18,6 +18,7 @@
  * - Add validation to every function
  * - at least one staff memeber is required
  * - add sorting to projects
+ * - return 400 for validation failure
  */
 
 const express = require('express');
@@ -96,27 +97,60 @@ async function insertProject (project) {
     projects[newProjectId] = project;
 
     await writeJsonFile(databasePath, projects);
+    return newProjectId
 }
 
 // Assignment functions:
 async function CreateProjectInDatabase(projectDetails) {
 
     try {
-        await insertProject(projectDetails)
+        const id = await insertProject(projectDetails)
         return ({
             status: 200,
             message: 'Project received successfully',
-            project: projectDetails
+            id: id
         })
     } catch (error) {
         return ({
             status: 500,
-            message: 'Failed to insert project'
+            message: 'Failed to insert project',
         })
         
     }
 }
 
+function deepEqual(obj1, obj2) {
+    if (obj1 === obj2) return true;
+
+    if (obj1 == null || typeof obj1 !== 'object' || obj2 == null || typeof obj2 !== 'object') {
+        return false;
+    }
+
+    let keys1 = Object.keys(obj1);
+    let keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (let key of keys1) {
+        if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function compareArrays(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (!deepEqual(arr1[i], arr2[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 // Route functions for project
 async function CreateProjectRoute(req,res) {
@@ -125,13 +159,14 @@ async function CreateProjectRoute(req,res) {
 
     const result = await CreateProjectInDatabase(newProjectObject);
 
-    res.json(result.project.id);
+    res.json(result);
 }
-async function updateProject(projectDetails) {
-    
+async function updateProject(projectDetails, id) {
+
     const projects = await readJsonFile(databasePath);
 
-    const project = projects[projectDetails.id];
+    const project = projects[id];
+
 
     if (!project) {
         return {
@@ -140,7 +175,31 @@ async function updateProject(projectDetails) {
         }
     }
 
-    projects[projectDetails.id] = projectDetails;
+
+    if (projectDetails.name)
+        project.name = projectDetails.name;
+
+    if (projectDetails.description)
+        project.description = projectDetails.description;
+
+    if (projectDetails.manager) {
+
+        if (projectDetails.manager.name)
+            project.manager.name = projectDetails.manager.name;
+
+        if (projectDetails.manager.email)
+            project.manager.email = projectDetails.manager.email;
+    }
+
+    if (projectDetails.team )
+        if (!compareArrays(projectDetails.team, project.team))
+            project.team = projectDetails.team;
+
+    if (projectDetails.start_date)
+        project.start_date = projectDetails.start_date;
+
+    projects[id] = project;
+
 
     await writeJsonFile(databasePath, projects);
 
@@ -155,11 +214,14 @@ async function updateProjectRoute(req, res) {
 
     const projectDetails = req.body;
 
+    const {Project_id} = req.params;
+
     var result;
 
     try {
-        result = await updateProject(projectDetails);
+        result = await updateProject(projectDetails, Project_id);
     } catch (err) {
+        console.log(err);
         result = {
             status: 500,
             message: 'Update Project: Internal server error'
@@ -362,7 +424,6 @@ const getPhotos = async function(req,res) {
     await getPhotosFromUnsplash(query, client_id, page).then(response => {
         res.status(200).json(response);  
     }).catch(error => {
-        console.log(error);
         res.status(500).json(error);
     })
 }
