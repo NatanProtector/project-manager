@@ -128,10 +128,25 @@ async function CreateProjectRoute(req,res) {
     res.json(result.project.id);
 }
 async function updateProject(projectDetails) {
-    //To be implemented
+    
+    const projects = await readJsonFile(databasePath);
+
+    const project = projects[projectDetails.id];
+
+    if (!project) {
+        return {
+            status: 404,
+            message: 'Project not found'
+        }
+    }
+
+    projects[projectDetails.id] = projectDetails;
+
+    await writeJsonFile(databasePath, projects);
+
     return {
-        status: 500,
-        message: "Not yet implemented"
+        status: 200,
+        message: "Project updated successfully"
     }
 }
 
@@ -139,8 +154,6 @@ async function updateProjectRoute(req, res) {
     // Function to update project details
 
     const projectDetails = req.body;
-
-    console.log(projectDetails);
 
     var result;
 

@@ -161,9 +161,9 @@ header {
 }
 
 .project-staff-display {
-    background-color: rgb(255, 201, 135);
+    background-color: rgb(245, 191, 125);
     width: 100%;
-    height: 30%;
+    height: 40%;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
@@ -172,9 +172,9 @@ header {
 }
 
 .project-image-display {
-    background-color: rgb(255, 201, 135);
+    background-color: rgb(245, 191, 125);
     width: 100%;
-    height: 30%;
+    height: 40%;
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
@@ -203,14 +203,29 @@ header {
 
 .project {
     border: 1px solid black;
-    background-color: azure;
+    background-color: whitesmoke;
     width: 100%;
-    height: 30%;
+    height: 25%;
     font-size: 28px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+
+.label-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    font-size: 20px;
+}
+
+.description {
+    font-size: 18px;
 }
 
 #add-photos-popup {
@@ -237,8 +252,8 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 98%;
-    height: 98%;
+    width: 95%;
+    height: 95%;
     background-color: rgb(255, 201, 135);
     border-radius: 10px;
     border: 1px solid black;
@@ -323,10 +338,10 @@ header {
 }
 
 .grid-container {
-    overflow: auto; /* Enable scrolling when content exceeds container size */
+    overflow: auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Create 10 equal-width columns */
-    grid-template-rows: repeat(4, 1fr); /* Create 6 equal-height rows */
+    grid-template-columns: repeat(5, 1fr); /* Create equal-width columns */
+    grid-template-rows: repeat(4, 1fr); /* Create equal-height rows */
     height: 100%;
     width: 100%;
 }
@@ -344,8 +359,8 @@ header {
     display: flex; /* Use flexbox for vertical centering */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    width:190px;
-    height: 140px;
+    width:170px;
+    height: 120px;
     flex-direction: column;
 }
 
@@ -354,15 +369,6 @@ header {
     height: 100%; /* Make the image fill the grid item */
     object-fit: cover; /* Cover the entire area of the grid item, maintaining aspect ratio */
     border-radius: 10px; /* Match the border-radius of the grid item */
-}
-
-.label-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    height: 60%;
 }
 
 .project-manager {

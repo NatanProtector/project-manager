@@ -517,6 +517,7 @@ const createProjectElement = function(project) {
 
     // Create project element
     const projectElement = document.createElement('div');
+    projectElement.classList.add('project');
 
     // Create project labels
     const projectId = document.createElement('label');
@@ -554,11 +555,6 @@ const createProjectElement = function(project) {
     viewButton.textContent = 'View';
     viewButton.style.display = "block"
 
-    // Append the project elements to the project container
-    // projectElement.appendChild(projectId);
-    // projectElement.appendChild(projectName);
-    // projectElement.appendChild(managerName);
-    // projectElement.appendChild(startDate);
     projectElement.appendChild(labelContainer);
     projectElement.appendChild(description);
 
