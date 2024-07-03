@@ -28,6 +28,15 @@ var projects = [];
 
 selectedProject = null;
 
+
+// Project display popup
+const projectName = document.getElementById('Project-Name-popup');
+const managerName = document.getElementById('Project-Manager-popup');
+const startDate = document.getElementById('Project-Start-Date-popup');
+const description = document.getElementById('Project-Description-popup');
+const staffDisplay = document.getElementById('project-staff-display');
+const imageDisplay = document.getElementById('project-image-display'); 
+
 // ===== Functions for adding image =================================================================================================
 
 // Function to clear images
@@ -103,6 +112,7 @@ const getPhotoInfo = async function (query_string) {
             description: element.alt_description,           // used as description for form
             description_formName: name,      // Used as name for form
             likes: element.likes,
+            id: element.id
         });       
     });
 
@@ -145,12 +155,13 @@ const removeImage = function() {
 const createClickHandlerForImage = function(element, gridItem) {
     return((event) => {
         selectGridItem(gridItem);
-        const {description, likes, url_thumb, description_formName } = element;
+        const {description, likes, url_thumb, description_formName, id } = element;
         const toDisplay = `Description: ${description}\nLikes: ${likes}`;
         currentlySelectedImageInfo = {
             thumb_url: url_thumb,
             name: description_formName,
-            description: description
+            description: description,
+            id: id
         }
         displaySelected(toDisplay);
         selectImage(url_thumb);
@@ -259,14 +270,11 @@ const handleDisplayForInput = function(val) {
 // Select photo
 const selectClicked = function(event) {
     if (currentlySelectedGridItem != null) {
-        currentlySelectedGridItem = event.target;
 
         // TODO Add photo to project
         console.log(currentlySelectedImageInfo);
 
         closeAddImages();
-
-
 
     }
 }
@@ -310,6 +318,71 @@ document.getElementById('close-project-button').addEventListener('click', closeP
 document.getElementById('add-photos-button').addEventListener('click', openAddImages);
 // ===== Functions for projects ================================================================================================================
 
+const clearProjectDisplay = function() {
+    projectName.innerHTML = "";
+    managerName.innerHTML = "";
+    startDate.innerHTML = "";
+    description.innerHTML = "";
+    staffDisplay.innerHTML = "";
+    imageDisplay.innerHTML = "";
+}
+
+const displayProjectInPopup = function(project) {
+
+    clearProjectDisplay();
+
+    projectName.innerHTML = `Project Name: ${project.name}`;
+    managerName.innerHTML = `Manager name: ${project.manager.name}, Email: ${project.manager.email}`;
+    startDate.innerHTML = `Start Date: ${project.start_date}`;
+    description.innerHTML = `${project.summary}`;
+
+    project.team.forEach((staff) => {
+
+        // Creating staff container
+        const staffContainer = document.createElement('div')
+        staffContainer.classList.add('staff');
+
+        // Creating labels
+        const nameLabel = document.createElement('label');
+        nameLabel.innerHTML = `Name: ${staff.name}`;
+        const emailLabel = document.createElement('label');
+        emailLabel.innerHTML = `Email: ${staff.email}`;
+        const roleLabel = document.createElement('label');
+        roleLabel.innerHTML = `Role: ${staff.role}`;
+
+        staffContainer.appendChild(nameLabel);
+        staffContainer.appendChild(emailLabel);
+        staffContainer.appendChild(roleLabel);
+
+        staffDisplay.appendChild(staffContainer);
+    });
+
+    project.images.forEach((image) => {
+
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('grid-item');
+
+        const imageElement = document.createElement('img');
+        imageElement.src = image.thumb_url;
+        imageElement.classList.add('image');
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Delete'
+
+
+        deleteButton.addEventListener('click',() => {
+            console.log(`deleting image: `, image);
+        })
+
+        imageContainer.appendChild(imageElement);
+        imageContainer.appendChild(deleteButton);
+
+        imageDisplay.appendChild(imageContainer);
+        
+    });
+
+} 
+
 const createProjectElement = function(project) {
 
     // Create project element
@@ -329,7 +402,6 @@ const createProjectElement = function(project) {
     managerName.className = 'manager-name';
     managerName.textContent = `Manager: ${project.manager.name}`;
     
-
     const startDate = document.createElement('label');
     startDate.className = 'start-date';
     startDate.textContent = `Start date: ${project.start_date}`;
@@ -350,6 +422,7 @@ const createProjectElement = function(project) {
     viewButton.addEventListener('click', () => {
         var projectPopup = document.getElementById('Project-Popup');
         projectPopup.style.display = 'flex';
+        displayProjectInPopup(project);
     });
 
     // Append the project elements to the project container

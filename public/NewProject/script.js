@@ -98,6 +98,10 @@ const addStaffClicked = function(event) {
 
 const submitClicked = function(event) {
 
+    // date to timestamp
+    const start_date = new Date(startDate.value); 
+    const start_date_timestamp = start_date.getTime() / 1000;
+
     const newProjectObject = {
         name: projectName.value,
         summary: summary.value,
@@ -107,18 +111,18 @@ const submitClicked = function(event) {
             email: managerEmail.value
         },
         team: staffMembers,
-        start_date: startDate.value
+        start_date: start_date_timestamp
     }
 
     // Send the new project object to the server
     $.ajax({
-        url: '/project',
+        url: '/projects',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(newProjectObject),
         success: function(response) {
             clearProjectForm();
-            window.location.href = '../projects/view'
+            window.location.href = '../list'
         },
         error: function(error) {
             console.log('Error:', error);

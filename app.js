@@ -1,10 +1,6 @@
 /**
  * Quesstions for miriam:
- * - How to operate the tester
- * - do i need to hide the unsplash api key?
- * - in the function createProject, what does it mean return status? return an integer?
- * - does getProject display the page or does it get the details for all projects? ?
- * - in deleteImageFromProject what is the paramater imageId? there is no field called image id
+ * - timestamp not in miliseconds right?
  */
 
 /** PROJECT MISUNDERSTOOD COMPLETLY
@@ -17,7 +13,10 @@
 
 /** TODO:
  * - Add validation to every function
- * - more details are nee
+ * - Data should be kept as time stamp!!!
+ * - return 404 for every resource that does not exist
+ * - images need an id
+ * - at least one staff memeber is required
  */
 
 const express = require('express');
@@ -101,9 +100,6 @@ async function insertProject (project) {
 // Assignment functions:
 async function CreateProjectInDatabase(projectDetails) {
 
-    // TODO: validate the newProjectObject
-
-
     try {
         await insertProject(projectDetails)
         return ({
@@ -112,7 +108,6 @@ async function CreateProjectInDatabase(projectDetails) {
             project: projectDetails
         })
     } catch (error) {
-        console.log('Failed to insert project', error);
         return ({
             status: 500,
             message: 'Failed to insert project'
@@ -135,40 +130,107 @@ async function CreateProjectRoute(req,res) {
 
     const result = await CreateProject(newProjectObject);
 
-    res.json(result);
+    res.json(result.project.id);
 }
 
 function updateProject(projectDetails) {
     //To be implemented
+    return {
+        status: 500,
+        message: "Not yet implemented"
+    }
 }
 
-function updateProjectRoute(req, res) {
+async function updateProjectRoute(req, res) {
     // Function to update project details
-    
-    res.send('Update Project: Not yet implemented');
+
+    const {projectDetails} = req.body;
+
+    var result;
+
+    try {
+        result = updateProject(projectDetails);
+    } catch (err) {
+        result = {
+            status: 500,
+            message: 'Update Project: Internal server error'
+        }
+    }
+
+    res.status(result.status).send(result.message);
 }
 
-function AddImagesToProject(ImageDetails, Project_id) {
-    // To be implemented
+async function AddImageToProject(ImageDetails, Project_id) {
+    const projects = await readJsonFile(databasePath);
+
+    const project = projects[Project_id];
+
+    if (!project) {
+        return {
+            status: 404,
+            message: 'Project not found'
+        }
+    }
+
+    const image = project.images.find((image => {image.id == ImageDetails.id}));
+
+    if (image) {
+        return {
+            status: 409,
+            message: 'Image already exists'
+        }
+    }
+
+    projects[Project_id].images.push(ImageDetails);
+
+    await writeJsonFile(databasePath, projects);
+
+    return {
+        status: 200,
+        message: 'Image added successfully'
+    }
+
 } 
 
 function AddImagesToProjectRoute(req, res) {
     // Function to add images to a project
     // To be implemented
+
+    const {image} = req.body;
+
+    const {project_id} = req.params;
+
+    var result;
+
+    try {
+        result = AddImageToProject(projectDetails, project_id);
+    } catch (err) {
+        result = {
+            status: 500,
+            message: 'Update Project: Internal server error'
+        }
+    }
+
+    res.status(result.status).send(result.message);
+
     res.send('Add Images to Project: Not yet implemented');
 }
 
 async function getProject(id_project) {
 
+    const projects = await readJsonFile(databasePath);
+
+    const project = projects[id_project];
+
+    return project;
 }
 
 async function getProjectRoute(req, res) {
     // Function to get details of a specific project
 
-    const projects = await readJsonFile(databasePath);
-
     const projectId = req.params.Project_id;
-    const project = projects[projectId];
+
+    const project = getProject(projectId);
 
     if (!project)
         res.status(404).send('Project not found');
@@ -184,29 +246,105 @@ async function getProjects() {
 }
 
 async function getProjectsRoute(req,res) {
-    const projects = await getProjects();
-    res.status(200).json(projects);
+    try {
+        const projects = await getProjects();
+        res.status(200).json(projects);
+    } catch (err) {
+        res.status(500).send('Get Projects: Internal server error');
+    }
 };
 
-function deleteImageFromProject(Project_id,  ImageId) {
+async function deleteImageFromProject(Project_id,  ImageId) {
+
+    const projects = await readJsonFile(databasePath);
+
+    const project = projects[Project_id];
+
+    if (!project) {
+        return {
+            status: 404,
+            message: 'Project not found'
+        }
+    }
+
+    const imageIndex = project.images.findIndex(image => image.id === ImageId);
+
+    if (imageIndex == -1) {
+        return {
+            status: 404,
+            message: 'Image not found'
+        }
+    }
+
+    // remove the photo
+    projects[Project_id].images.splice(imageIndex, 1);
+
+    await writeJsonFile(projects);
+
+    return {
+        status: 200,
+        message: 'Image deleted successfully'
+    }
 
 };
 
-
+//:Project_id/images/:ImageId
 function deleteImageFromProjectRoute(req, res) {
     // Function to delete an image from a project
-    // To be implemented
-    res.send('Delete Image from Project: Not yet implemented');
+   
+    const {project_id, image_id} = req.params;
+
+    var result;
+    
+    try {
+        result = deleteImageFromProject(project_id, image_id);
+    } catch (err) {
+        result = {
+            status: 500,
+            message: 'Delete Image from Project: Internal server error'
+        }
+    }
+
+    res.status(result.status).send(result.message);
 };
 
 function deleteProject(Project_id) {
-    // To be implemented
+
+    const projects = readJsonFile(databasePath);
+
+    const project = projects[Project_id];
+
+    if (!project) {
+        return {
+            status: 404,
+            message: 'Project not found'
+        }
+    }
+
+    // remove the project
+    delete projects[Project_id];
+
+    writeJsonFile(projects);
+
+    return {
+        status: 200,
+        message: 'Project deleted successfully'
+    }
 }
 
 function deleteProjectRoute(req, res) {
     // Function to delete a project
-    // To be implemented
-    res.send('Delete Project: Not yet implemented');
+    const project_id = req.params.Project_id;
+
+    var result;
+
+    try {
+        result = deleteProject(project_id);
+    } catch (err) {
+        result = {status: 500, message: 'Delete Project: Internal server error'}
+    }
+
+    res.status(result.status).send(result.message);
 };
 
 
@@ -257,27 +395,23 @@ app.get('/project/new',(req,res) => {
     res.sendFile(path.join(__dirname, 'public' ,'NewProject' ,'index.html'));
 });
 
-app.get('/projects/view', (req,res) => {
+app.get('/list', (req,res) => {
     res.sendFile(path.join(__dirname, 'public', 'ViewProjects', 'index.html'));
 })
 
-// app.get('/project/view/:Project_id', (req,res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'ViewProject', 'index.html'));
-// })
-
 // Routes for assignment
-app.post('/project', CreateProjectRoute);
-app.put('/project/:Project_id', updateProjectRoute);
-app.post('/project/:Project_id/images', AddImagesToProjectRoute);
-app.get('/project/:Project_id', getProjectRoute);
+app.post('/projects', CreateProjectRoute);
+app.put('/projects/:Project_id', updateProjectRoute);
+app.post('/projects/:Project_id/images', AddImagesToProjectRoute);
+app.get('/projects/:Project_id', getProjectRoute);
 app.get('/projects', getProjectsRoute);
-app.delete('/project/:Project_id/image/:ImageId', deleteImageFromProjectRoute);
-app.delete('/project/:Project_id', deleteProjectRoute);
+app.delete('/projects/:Project_id/images/:ImageId', deleteImageFromProjectRoute);
+app.delete('/projects/:Project_id', deleteProjectRoute);
 
 // Route for getting photos
 app.get('/photos/:query/:page', getPhotos);
 
-// Start the server
+// Start the server**
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
