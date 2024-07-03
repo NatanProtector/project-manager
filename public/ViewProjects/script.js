@@ -434,13 +434,21 @@ const clearProjectDisplay = function() {
     imageDisplay.innerHTML = "";
 }
 
+const timestampToDate = function(timestamp) {
+    // Format start date to "yyyy-MM-dd"
+    const startDateValue = new Date(timestamp * 1000);
+    const formattedStartDate = startDateValue.toISOString().split('T')[0];
+
+    return formattedStartDate;
+}
+
 const displayProjectInPopup = function(project) {
 
     clearProjectDisplay();
 
     projectName.innerHTML = `Project Name: ${project.name}`;
     managerName.innerHTML = `Manager name: ${project.manager.name}, Email: ${project.manager.email}`;
-    startDate.innerHTML = `Start Date: ${project.start_date}`;
+    startDate.innerHTML = `Start Date: ${timestampToDate(project.start_date)}`;
     description.innerHTML = `${project.summary}`;
 
     project.team.forEach((staff) => {
@@ -509,7 +517,6 @@ const createProjectElement = function(project) {
 
     // Create project element
     const projectElement = document.createElement('div');
-    projectElement.className = 'project';
 
     // Create project labels
     const projectId = document.createElement('label');
@@ -526,7 +533,7 @@ const createProjectElement = function(project) {
     
     const startDate = document.createElement('label');
     startDate.className = 'start-date';
-    startDate.textContent = `Start date: ${project.start_date}`;
+    startDate.textContent = `Start date: ${timestampToDate(project.start_date)}`;
 
     const labelContainer = document.createElement('div');
     labelContainer.className = 'label-container';
