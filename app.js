@@ -28,6 +28,11 @@ const axios = require('axios');
 const fs = require('fs');
 require('dotenv').config();
 
+// Get validator class
+const Validator = require('./utils/validator');
+
+const validator = new Validator();
+
 // get utils:
 generateUniqueKey = require('./utils/keyGenerator');
 
@@ -88,6 +93,7 @@ function writeJsonFile(filePath, data) {
 
 // Function for project
 async function insertProject (project) {
+
     var projects = await readJsonFile(databasePath);
 
     const newProjectId = generateUniqueKey();
@@ -95,6 +101,8 @@ async function insertProject (project) {
     project['id'] = newProjectId;
 
     projects[newProjectId] = project;
+
+    projects[newProjectId]['images'] = [];
 
     await writeJsonFile(databasePath, projects);
     return newProjectId
@@ -157,16 +165,21 @@ async function CreateProjectRoute(req,res) {
 
     const newProjectObject = req.body;
 
-    const result = await CreateProjectInDatabase(newProjectObject);
+    if (!validator.validateNewProject(newProjectObject)) {
 
-    res.json(result);
+        res.status(400).send("Bad request");
+
+    } else {
+        const result = await CreateProjectInDatabase(newProjectObject);
+
+        res.json(result);
+    }
 }
 async function updateProject(projectDetails, id) {
 
     const projects = await readJsonFile(databasePath);
 
     const project = projects[id];
-
 
     if (!project) {
         return {
@@ -175,6 +188,12 @@ async function updateProject(projectDetails, id) {
         }
     }
 
+    if (!validator.validateUpdateProject(projectDetails)) {
+        return ({
+            status: 400,
+            message: 'Bad request'
+        });
+    }
 
     if (projectDetails.name)
         project.name = projectDetails.name;
@@ -242,14 +261,22 @@ async function AddImageToProject(ImageDetails, Project_id) {
             message: 'Project not found'
         }
     }
+    
 
-    const image = project.images.find((image => {image.id == ImageDetails.id}));
+    if (!validator.validateImage(ImageDetails)) {
+        return ({
+            status: 400,
+            message: 'Bad request'
+        })
+    }
+
+    const image = project.images.find((image => image.id == ImageDetails.id));
 
     if (image) {
-        return {
-            status: 409,
-            message: 'Image already exists'
-        }
+        return ({
+            status: 400,
+            message: 'Bad request'
+        })
     }
 
     projects[Project_id].images.push(ImageDetails);
@@ -258,9 +285,11 @@ async function AddImageToProject(ImageDetails, Project_id) {
 
     return {
         status: 200,
-        message: 'Image added successfully'
+        message: {
+            message: 'Image added successfully',
+            id: ImageDetails.id
+        }
     }
-
 } 
 
 async function AddImagesToProjectRoute(req, res) {
@@ -270,6 +299,8 @@ async function AddImagesToProjectRoute(req, res) {
     const imageInfo = req.body;
 
     const {Project_id} = req.params;
+
+
 
     var result;
 

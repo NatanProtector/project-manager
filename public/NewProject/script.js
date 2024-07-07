@@ -1,7 +1,3 @@
-/**
- * TODO - display selected photos
- */
-
 // staff inputs
 const staffName = document.getElementById('staffName');
 const staffEmail = document.getElementById('staffEmail');
@@ -26,6 +22,10 @@ const submitButton = document.getElementById('submit-button');
 const selectedStaffDisplay = document.querySelector('.selected-staff-display');
 
 
+// Email regex
+const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})$/;
+
+
 // ---=== Functions ---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---
 
 const clearStaffInput = function() {
@@ -48,7 +48,26 @@ const clearProjectForm = function() {
 
 // Validate staff info
 const validateStaffInfo = function(name,email,role) {
-    console.log("Staff validation not implemented yet");
+    if (!name) {
+        alert('Staff members must have a name');
+        return false;
+    }
+
+    if (!email) {
+        alert('Staff members must have an email');
+        return false;
+    }
+
+    if (emailRegex.test(email) == false) {
+        alert('Staff members must have a valid email');
+        return false;
+    }
+
+    if (!role) {
+        alert('Staff members must have a role');
+        return false;
+    }
+
     return true;
 }
 
@@ -96,6 +115,45 @@ const addStaffClicked = function(event) {
     }
 }
 
+const validateNewProject = function(project) {
+    if (!project.name) {
+        alert('Project name is required');
+        return false;
+    }
+
+    if (!project.manager.name) {
+        alert('Project manager name is required');
+        return false;
+    }
+
+    if (!project.manager.email) {
+        alert('Project manager email is required');
+        return false;
+    }
+
+    if (emailRegex.test(project.manager.email) == false) {
+        alert('Project manager email is invalid');
+        return false;
+    }
+
+    if (!project.summary) {
+        alert('Project summary is required');
+        return false;
+    }
+
+    if (project.summary < 20 || project.summary > 80) {
+        alert('Project summary must be between 20 and 80 characters');
+        return false;
+    }
+
+    if (!project.start_date) {
+        alert('Project start date is required');
+        return false;
+    }
+
+    return true;
+}
+
 const submitClicked = function(event) {
 
     // date to timestamp
@@ -114,20 +172,22 @@ const submitClicked = function(event) {
         start_date: start_date_timestamp
     }
 
+    validateNewProject(newProjectObject);
+
     // Send the new project object to the server
-    $.ajax({
-        url: '/projects',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(newProjectObject),
-        success: function(response) {
-            clearProjectForm();
-            window.location.href = '../list'
-        },
-        error: function(error) {
-            console.log('Error:', error);
-        }
-    });
+    // $.ajax({
+    //     url: '/projects',
+    //     type: 'POST',
+    //     contentType: 'application/json',
+    //     data: JSON.stringify(newProjectObject),
+    //     success: function(response) {
+    //         clearProjectForm();
+    //         window.location.href = '../list'
+    //     },
+    //     error: function(error) {
+    //         console.log('Error:', error);
+    //     }
+    // });
 }
 
 // ===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---

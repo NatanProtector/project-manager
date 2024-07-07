@@ -109,13 +109,13 @@ const getPhotoInfo = async function (query_string) {
         if (name == null)
             name = "No name";
         results.push({
-            url_thumb: element.urls.thumb,
+            thumb: element.urls.thumb,
             url_small: element.urls.small,
             description: element.alt_description,           // used as description for form
             description_formName: name,      // Used as name for form
             likes: element.likes,
             id: element.id
-        });       
+        });
     });
 
     total_pages = data.total_pages;  // Update total pages
@@ -157,16 +157,15 @@ const removeImage = function() {
 const createClickHandlerForImage = function(element, gridItem) {
     return((event) => {
         selectGridItem(gridItem);
-        const {description, likes, url_thumb, description_formName, id } = element;
+        const {description, likes, thumb, id } = element;
         const toDisplay = `Description: ${description}\nLikes: ${likes}`;
         currentlySelectedImageInfo = {
-            thumb_url: url_thumb,
-            name: description_formName,
+            thumb: thumb,
             description: description,
             id: id
         }
         displaySelected(toDisplay);
-        selectImage(url_thumb);
+        selectImage(thumb);
     });
 }
 
@@ -183,7 +182,7 @@ function addPhotosToGrid(searchTerm) {
             const img = document.createElement('img');
             
             // Add url to img
-            img.src = element.url_thumb;
+            img.src = element.thumb;
 
             // Add image class
             img.classList.add('image');
@@ -478,7 +477,7 @@ const displayProjectInPopup = function(project) {
         imageContainer.classList.add('grid-item');
 
         const imageElement = document.createElement('img');
-        imageElement.src = image.thumb_url;
+        imageElement.src = image.thumb;
         imageElement.classList.add('image');
 
         const deleteButton = document.createElement('button');
@@ -513,6 +512,8 @@ const displayProjectInPopup = function(project) {
 } 
 
 const createProjectElement = function(project) {
+
+    console.log(project);
 
     // Create project element
     const projectElement = document.createElement('div');
@@ -623,8 +624,6 @@ const populateProjects = async function() {
     // Get projects from database and push each project to the projects array
 
     const projectsObject = await getProjects();
-
-    console.log(projectsObject);
 
     Object.values(projectsObject).forEach((value) => {
         projects.push(value);
