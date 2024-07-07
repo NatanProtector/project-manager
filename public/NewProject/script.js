@@ -172,22 +172,22 @@ const submitClicked = function(event) {
         start_date: start_date_timestamp
     }
 
-    validateNewProject(newProjectObject);
-
-    // Send the new project object to the server
-    // $.ajax({
-    //     url: '/projects',
-    //     type: 'POST',
-    //     contentType: 'application/json',
-    //     data: JSON.stringify(newProjectObject),
-    //     success: function(response) {
-    //         clearProjectForm();
-    //         window.location.href = '../list'
-    //     },
-    //     error: function(error) {
-    //         console.log('Error:', error);
-    //     }
-    // });
+    if (validateNewProject(newProjectObject)) {
+        // Send the new project object to the server
+        $.ajax({
+            url: '/projects',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(newProjectObject),
+            success: function(response) {
+                clearProjectForm();
+                window.location.href = '../list'
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    }
 }
 
 // ===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---

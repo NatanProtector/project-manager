@@ -30,8 +30,6 @@ const submitButton = document.getElementById('submit-button');
 // add staff button
 const selectedStaffDisplay = document.querySelector('.selected-staff-display');
 
-var projectImages
-
 // ---=== Functions ---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---
 
 const clearStaffInput = function() {
@@ -54,7 +52,26 @@ const clearProjectForm = function() {
 
 // Validate staff info
 const validateStaffInfo = function(name,email,role) {
-    console.log("Staff validation not implemented yet");
+    if (!name) {
+        alert('Staff members must have a name');
+        return false;
+    }
+
+    if (!email) {
+        alert('Staff members must have an email');
+        return false;
+    }
+
+    if (emailRegex.test(email) == false) {
+        alert('Staff members must have a valid email');
+        return false;
+    }
+
+    if (!role) {
+        alert('Staff members must have a role');
+        return false;
+    }
+
     return true;
 }
 
@@ -106,6 +123,44 @@ const addStaffClicked = function(event) {
 }
 
 
+const validateNewProject = function(project) {
+    if (!project.name) {
+        alert('Project name is required');
+        return false;
+    }
+
+    if (!project.manager.name) {
+        alert('Project manager name is required');
+        return false;
+    }
+
+    if (!project.manager.email) {
+        alert('Project manager email is required');
+        return false;
+    }
+
+    if (emailRegex.test(project.manager.email) == false) {
+        alert('Project manager email is invalid');
+        return false;
+    }
+
+    if (!project.summary) {
+        alert('Project summary is required');
+        return false;
+    }
+
+    if (project.summary < 20 || project.summary > 80) {
+        alert('Project summary must be between 20 and 80 characters');
+        return false;
+    }
+
+    if (!project.start_date) {
+        alert('Project start date is required');
+        return false;
+    }
+
+    return true;
+}
 
 const submitClicked = function(event) {
 
@@ -126,22 +181,24 @@ const submitClicked = function(event) {
         id: project_id
     };
 
-    // Send the new project object to the server
-    $.ajax({
-        url: `/projects/${project_id}`,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(editedProjectObject),
-        success: function(response) {
-            clearProjectForm();
-            window.location.href = '../../list';
-        },
-        error: function(error) {
-            console.log('Error:', error);
-        }
-    });
 
-    
+    // Validate project info
+    if (validateNewProject(editedProjectObject)) {
+        // Send the new project object to the server
+        $.ajax({
+            url: `/projects/${project_id}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(editedProjectObject),
+            success: function(response) {
+                clearProjectForm();
+                window.location.href = '../../list';
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    }   
 }
 
 // ===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---
