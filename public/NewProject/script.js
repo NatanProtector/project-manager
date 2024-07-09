@@ -141,7 +141,7 @@ const validateNewProject = function(project) {
         return false;
     }
 
-    if (project.summary < 20 || project.summary > 80) {
+    if (project.summary.length < 20 || project.summary.length > 80) {
         alert('Project summary must be between 20 and 80 characters');
         return false;
     }

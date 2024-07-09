@@ -30,6 +30,9 @@ const submitButton = document.getElementById('submit-button');
 // add staff button
 const selectedStaffDisplay = document.querySelector('.selected-staff-display');
 
+// Email regex
+const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})$/;
+
 // ---=== Functions ---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---===---
 
 const clearStaffInput = function() {

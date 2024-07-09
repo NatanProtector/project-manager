@@ -1,24 +1,23 @@
 /**
  * Quesstions for miriam:
  * - timestamp not in miliseconds right?
+ *      
  * - is axios ok for requests on server side?
+ * 
  * - does npm start need to install the dependencies as well?
+ * 
  * - how to submit the assignment? will zipping without the modules work?
+ * 
+ * - We need to submit projects.json as well. is there anything we need to put in there?
+ * 
+ * - what to submit in the הגשת עבודות באתר?
+ * 
+ * - how to include second participant?
  */
 
-/** PROJECT MISUNDERSTOOD COMPLETLY
- * - A PROJECT IS CREATED INITIALLY WITH NO PHOTOS
- *   PHOTOS ARE ADDED LATER
- * - THE ASSIGMENT FUNCTIONS DO NOT ACT AS THE ROUTES, ROUTES ARE IMPLEMENTED SEPERATLY
- * - PROJECTS DISPLAY REQUIRES A MORE INFORMATION, SEE ASSIGNMENT DOCUMENTATION
- * - 
- */
 
 /** TODO:
- * - Add validation to every function
- * - at least one staff memeber is required
  * - add sorting to projects
- * - return 400 for validation failure
  */
 
 const express = require('express');
