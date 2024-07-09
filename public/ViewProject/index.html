@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css"> <!-- Link to external CSS file for styling -->
+    <title>View Project</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h2 class="main-title">Project manager</h2> <!-- Main title -->
+            <a href="../../projects/view">View Projects</a>
+            <a href="../../project/new">New Project</a>
+            <h3 class="sub-title">Created by <b class="animated-element">Natan Protector</b> 205438542</h3> <!-- Sub title with animated text -->
+        </div>
+    </header> 
+
+    <div class="interface-container">
+
+        <div class="project-display">
+            <h1 name="project-name">Project Name</h1>
+            <div class="project-manager">
+                <label for="manager-name">Manager Name: pedro</label>
+                <label for="manager-email">Manager Email: pedro@outlook.com"></label>      
+            </div>
+            <label for="project-start-date">Start Date: 2020-01-01</label>
+            <div> 
+                <p name="project-summary">A summary of the project</p>
+            </div>            
+            
+            <div>
+                <button>Edit</button>
+                <button>Delete Project</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Link to external jquerry library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to external JavaScript file for functionality -->
+    <script src="../../ViewProject/script.js"></script>
+</body>
+</html>

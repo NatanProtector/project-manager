@@ -1,0 +1,453 @@
+/* Natan Protector 205438542 */
+
+/* Body */
+body {
+    font-family: 'Arial', sans-serif; /* Applying the font to the whole body */
+    margin: 0;
+    padding: 0;
+    background-color: rgb(186, 140, 99); /* Beige background color */
+}
+
+/* Header */
+header {
+    background-color: rgba(104, 80, 56, 0.95); /* Dark brown background color with opacity */
+    color: #FFFFFF; /* White text color */
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    margin: 0 auto; 
+    height: 10vh; /* Header height is 10% of the viewport height */
+}
+.header-container {
+    display: flex;
+    justify-content: space-evenly; 
+    align-items: center; 
+    width: 80%;
+    margin: 0 auto;
+}
+
+.header-container a {
+   color: white; 
+   margin: 20px;
+}
+
+.main-title {
+    margin-top: 15px; 
+    margin-right: 20%; /* Shift the title to the left */
+    flex: 1; /* Allow the title to grow and take up remaining space */
+    font-size: 25px;
+    max-width: 100%; /* Set maximum width to 100% of the container */
+    word-wrap: break-word; /* Allow the title to wrap within the container */
+}
+
+.sub-title {
+    margin-top: 2%; /* Add some space above the subtitle */
+    font-size: 16px;
+    max-width: 100%; /* Set maximum width to 100% of the container */
+    word-wrap: break-word; /* Allow the subtitle to wrap within the container */
+}
+
+
+/* Interface */
+.interface-container {
+    width: 100%;
+    margin-top: 20px;
+    height: 80vh; /* Container height is 80% of the viewport height */
+    display: flex; 
+    flex-direction: row; /* Arrange items horizontally */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+}
+
+/* Input area */
+.input {
+    width: 25%; /* Input area takes up 25% of the container width */
+    height: 100%;
+    margin: 5px;
+    background-color: bisque; /* Beige background color */
+    border: 15px solid  #ba8c63 ; /* Thick beige border */
+    border-radius: 20px; /* Rounded corners */
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+}
+
+.selected-img, .display-txt {
+    width: 90%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+}
+
+.selected-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.img-container {
+    height: 50%;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.form-container {
+    background-color: bisque;
+    border-radius: 5px;
+    padding: 20px;
+    width: 95%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.staff-form-container {
+    background-color: rgb(255, 201, 135);
+    border-radius: 5px;
+    padding: 10px;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.project-form-container {
+    background-color: rgb(255, 201, 135);
+    border-radius: 5px;
+    padding: 10px;
+    width: 95%;
+    display: grid;  /* Use CSS Grid */
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns */
+    grid-template-rows: repeat(6, auto);  /* 6 rows, auto height */
+    gap: 10px;  /* Adjust gap between items if needed */
+    justify-items: center;  /* Center items horizontally */
+    align-items: center;  /* Center items vertically */
+    font-size: 20px;
+}
+
+.project-container {
+    border-radius: 5px;
+    background-color: rgb(255, 201, 135);
+    width: 95%;
+    margin-top: 20px;
+    height: 80vh; /* Container height is 80% of the viewport height */
+    display: flex; 
+    flex-direction: column; /* Arrange items horizontally */
+    overflow-y: auto;
+    overflow-x: hidden; 
+}
+
+.project-display {
+    border-radius: 5px;
+    background-color: rgb(255, 201, 135);
+    width: 95%;
+    margin-top: 20px;
+    height: 80vh; /* Container height is 80% of the viewport height */
+    display: flex; 
+    flex-direction: column; /* Arrange items horizontally */
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.project-staff-display {
+    background-color: rgb(245, 191, 125);
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.project-image-display {
+    background-color: rgb(245, 191, 125);
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    overflow-x: auto; /* Add horizontal scroll bar when needed */
+    overflow-y: hidden; /* Hide vertical scrollbar if not needed */
+    flex-wrap: nowrap; /* Prevent items from wrapping */
+}
+
+.staff {
+    border: 1px solid black; /* Black border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px;
+    margin: 3px; 
+    background-color: #f4f4e9; /* Light beige background color */
+    text-align: center; /* Center text horizontally */
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    display: flex; /* Use flexbox for vertical centering */
+    flex-direction: column;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width:380px;
+    height: 122px;
+}
+
+.project {
+    border: 1px solid black;
+    background-color: whitesmoke;
+    width: 100%;
+    height: 25%;
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.label-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    font-size: 20px;
+}
+
+.description {
+    font-size: 18px;
+}
+
+#add-photos-popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 97%;
+    height: 97%;
+    background-color: rgb(255, 201, 135);
+    border-radius: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+}
+
+.Project-Popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 95%;
+    background-color: rgb(255, 201, 135);
+    border-radius: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2;
+}
+
+.last-item {
+    grid-column: span 2;
+}
+
+.selected-staff-display {
+    background-color: rgb(255, 201, 135);
+    border-radius: 5px;
+    padding: 10px;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.selected-staff {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    gap:10px
+}
+
+.display-paragraph {
+    font-size: 18px; 
+    line-height: 1.6; /* Increase line spacing */
+    color: #333;
+    margin-bottom: 20px; 
+    padding: 20px;
+    background-color: #ffabab;
+    border: 1px solid #ddd; 
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    width: 70%;
+    height: 65%;
+    white-space: pre-line;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#select-button {
+    width: 40%;
+    height: 30px;
+    font-size: 17px;
+}
+
+#txtinput {
+    margin: 5% 5%;
+    width: 70%; 
+    height: 10%;
+    resize: none; /* Prevent resizing */
+    font-size: 20px;
+    background-color: azure; /* Light blue background color */
+}
+
+.page-control {
+    margin-bottom: 4%;
+}
+
+/* Display area*/
+.display {
+    width: 75%; 
+    height: 100%;
+    background-color: rgb(186, 140, 99); 
+    border-radius: 15px; 
+    margin-right: 15px; 
+}
+
+.grid-container {
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Create equal-width columns */
+    grid-template-rows: repeat(4, 1fr); /* Create equal-height rows */
+    height: 100%;
+    width: 100%;
+}
+
+.grid-item {
+    border: 1px solid black; /* Black border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px;
+    margin: 3px; 
+    background-color: #f4f4e9; /* Light beige background color */
+    text-align: center; /* Center text horizontally */
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    display: flex; /* Use flexbox for vertical centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width:170px;
+    height: 120px;
+    flex-direction: column;
+}
+
+.image {
+    width: 100%; /* Make the image fill the grid item */
+    height: 100%; /* Make the image fill the grid item */
+    object-fit: cover; /* Cover the entire area of the grid item, maintaining aspect ratio */
+    border-radius: 10px; /* Match the border-radius of the grid item */
+}
+
+.project-manager {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    gap:10px
+}
+
+/* Style the scrollbar */
+.grid-container::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
+}
+
+/* Track */
+.grid-container::-webkit-scrollbar-track {
+    background: antiquewhite; /* Set the background color of the scrollbar track */
+}
+
+/* Handle */
+.grid-container::-webkit-scrollbar-thumb {
+    background: rgba(101,67,33,0.95);/* Set the color of the scrollbar handle */
+    border-radius: 4px; /* Add rounded corners to the scrollbar handle */
+}
+
+/* Color change animation */
+.animated-element {
+    display: inline-block; /* Needed for the transformation */
+    animation: changeColor 2s infinite; /* Change color every 2 seconds */
+}
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+}
+
+/* Styling for the sort buttons */
+.sort-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Ensure buttons wrap if they exceed container width */
+}
+
+.sort-buttons button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.sort-buttons button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes changeColor {
+    0% { 
+        color: antiquewhite; /* Start with beige color */
+        scale: 1; /* Start with normal scale */
+    } 
+    20% { color: rgb(187, 187, 255); } /* Change to light blue */
+    40% {
+        color: rgb(255, 186, 186); /* Change to light red */
+        scale: 1.02; /* Slightly increase scale */
+    } 
+    60% { color: rgb(255, 255, 199);} /* Change to light yellow */
+    80% { color: rgb(186, 255, 186); } /* Change to light green */
+    100% {
+        color: antiquewhite; /* End with beige color */
+        scale: 1; /* End with normal scale */
+    }
+}

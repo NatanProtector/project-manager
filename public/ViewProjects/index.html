@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css"> <!-- Link to external CSS file for styling -->
+    <title>Distrubuted Systems Ex3</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h2 class="main-title">Project manager</h2> <!-- Main title -->
+            <a href="../projects/new">New Project</a>
+            <h3 class="sub-title">Created by <b class="animated-element">Natan Protector</b> 205438542</h3>
+            <!-- Sub title with animated text -->
+        </div>
+    </header>
+    <h1>View Projects</h1>
+
+    <div id="add-photos-popup">
+        <button id="close-add-photos-button">Close</button>
+        <div class="interface-container">
+            <!-- Input section -->
+            <div class="input">
+                <input type="text" name="txtinput" id="txtinput" placeholder="Search..">
+                <div class="display-paragraph">
+                    <div class="img-container">
+                        <!-- Starts empty-->
+                    </div>
+                    <p class="display-txt">
+                        <!-- Starts empty-->
+                    </p>
+                    <button id="select-button">Select</button>
+                </div>
+                <div class="page-control">
+                    <button id="page-button" class="button-back">
+                        Back
+                    </button>
+                    <button id="page-button" class="button-next">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <!-- Display section -->
+            <div class="display">
+                <div class="grid-container">
+                    <!-- Placeholder for displaying results -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="Project-Popup" id="Project-Popup">
+
+        <div>
+            <h2 id="Project-Name-popup">Project Name:</h1>
+                <h3 id="Project-Manager-popup">Project Manager:</h1>
+                    <h3 id="Project-Start-Date-popup">Start Date:</h1>
+                        <h3>Description:</h1>
+                            <p id="Project-Description-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Sapiente, similique enim. Ipsum eos eveniet voluptatibus aspernatur adipisci impedit
+                                odit deserunt cupiditate placeat omnis. Veniam ipsa dolores fugit neque perferendis
+                                consequatur!</p>
+        </div>
+
+        <h4>Staff</h4>
+        <div class="project-staff-display" id="project-staff-display">
+            <!-- placeholder for staff -->
+        </div>
+
+        <h4>Photos</h4>
+        <div class="project-image-display" id="project-image-display">
+            <!-- placeholder for images -->
+        </div>
+        <div class="buttons-project">
+            <button id="edit-project-button">Edit</button>
+            <button id="add-photos-button">Add Photos</button>
+            <button id="delete-project-button">Delete</button>
+            <button id="close-project-button">Close</button>
+        </div>
+    </div>
+    <!-- <button id="sort-by-name-asc">Sort by Project Name (Asc)</button>
+    <button id="sort-by-name-desc">Sort by Project Name (Desc)</button>
+    <button id="sort-by-manager-asc">Sort by Manager Name (Asc)</button>
+    <button id="sort-by-manager-desc">Sort by Manager Name (Desc)</button>
+    <button id="sort-by-start-date-asc">Sort by Start Date (Asc)</button>
+    <button id="sort-by-start-date-desc">Sort by Start Date (Desc)</button> -->
+
+    <div class="sort-container">
+        <label for="sort-options">Sort By:</label>
+        <div class="sort-buttons">
+            <button id="sort-by-name-asc">Sort by Project Name (Asc)</button>
+            <button id="sort-by-name-desc">Sort by Project Name (Desc)</button>
+            <button id="sort-by-manager-asc">Sort by Manager Name (Asc)</button>
+            <button id="sort-by-manager-desc">Sort by Manager Name (Desc)</button>
+            <button id="sort-by-start-date-asc">Sort by Start Date (Asc)</button>
+            <button id="sort-by-start-date-desc">Sort by Start Date (Desc)</button>
+        </div>
+    </div>
+
+    <!-- <label for="sort-select">Sort By</label>
+    <select name="sort-select" id="1">
+        <option id="sort-by-name" value="project name">project name</option>
+        <option id="sort-by-manager" value="manager name">manager name</option>
+        <option id="sort-by-start-date" value="start date">start date</option>
+        <option id="sort-by-name" value="project name">project name</option>
+        <option id="sort-by-manager" value="manager name">manager name</option>
+        <option id="sort-by-start-date" value="start date">start date</option>
+
+
+
+        <option id="sort-by-name-asc">Sort by Project Name (Asc)</option>
+        <option id="sort-by-name-desc">Sort by Project Name (Desc)</option>
+        <option id="sort-by-manager-asc">Sort by Manager Name (Asc)</option>
+        <option id="sort-by-manager-desc">Sort by Manager Name (Desc)</option>
+        <option id="sort-by-start-date-asc">Sort by Start Date (Asc)</option>
+        <option id="sort-by-start-date-desc">Sort by Start Date (Desc)</option>
+    </select> -->
+
+    <div class="interface-container">
+
+        <div class="project-container">
+
+            <!-- placeholder for projects -->
+
+        </div>
+
+    </div>
+
+    <!-- Link to external jquerry library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to external JavaScript file for functionality -->
+    <script src="../ViewProjects/script.js"></script>
+
+</body>
+
+</html>
