@@ -1,23 +1,31 @@
 /**
  * Quesstions for miriam:
  * - timestamp not in miliseconds right?
+ *      - yes, but make sure the routes accept ONLY timestamps, NO DATE STRINGS
  *      
  * - is axios ok for requests on server side?
+ *      - yes
  * 
  * - does npm start need to install the dependencies as well?
+ *      - no, npm install is done automatically before npm start
  * 
  * - how to submit the assignment? will zipping without the modules work?
+ *      - yes, do not zip the modules
  * 
  * - We need to submit projects.json as well. is there anything we need to put in there?
+ *      - its not projects.json, its the package.json
  * 
  * - what to submit in the הגשת עבודות באתר?
+ *      - the zip file of the project, no modules
  * 
  * - how to include second participant?
+ *      - add id of the second participant in תחנת מידע
  */
-
 
 /** TODO:
  * - add sorting to projects
+ * - add validation for the date, ONLY TIMESTAMPS
+ *      - Note: timestamp will arrive as a string in the json, must check that it is a timestamp
  */
 
 const express = require('express');
