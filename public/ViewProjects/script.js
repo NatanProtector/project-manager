@@ -381,6 +381,7 @@ const displayProjects = function() {
 
         // Create project element
         const projectElement = createProjectElement(project);
+        
         projectContainer.appendChild(projectElement);
     })
 }
@@ -577,11 +578,15 @@ const displayProjectInPopup = function(project) {
 
 const createProjectElement = function(project) {
 
-    console.log(project);
 
     // Create project element
     const projectElement = document.createElement('div');
     projectElement.classList.add('project');
+
+    projectElement.style.display = "grid";
+    projectElement.style.gridTemplateColumns = "1fr 1fr"
+    projectElement.style.padding = "10px";
+
 
     // Create project labels
     const projectId = document.createElement('label');
@@ -601,17 +606,22 @@ const createProjectElement = function(project) {
     startDate.textContent = `Start date: ${timestampToDate(project.start_date)}`;
 
     const labelContainer = document.createElement('div');
-    labelContainer.className = 'label-container';
+    labelContainer.className = 'label-container';    
+    labelContainer.style.display = "grid";
+    labelContainer.style.gridTemplateColumns = "1fr 1fr"
     labelContainer.appendChild(projectId);
     labelContainer.appendChild(projectName);
     labelContainer.appendChild(managerName);
     labelContainer.appendChild(startDate);
 
 
+
+
     const description = document.createElement('P');
     description.className = 'description';
     description.textContent = `Summary: ${project.summary}`;
     description.style.display = "block"
+    description.style.overflowWrap= "break-word";
 
     // Create project view button
     const viewButton = document.createElement('button');
