@@ -18,6 +18,19 @@ header {
     margin: 0 auto; 
     height: 10vh; /* Header height is 10% of the viewport height */
 }
+
+.view-project-popup-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.description-container{
+    display: inline
+}
+#Project-Description-popup {
+    display: inline-block;
+}
+
 .header-container {
     display: flex;
     justify-content: space-evenly; 
@@ -417,6 +430,10 @@ header {
 .sort-buttons {
     display: flex;
     flex-wrap: wrap; /* Ensure buttons wrap if they exceed container width */
+}
+
+h1, .padding {
+    padding-left: 3%;
 }
 
 .sort-buttons button {

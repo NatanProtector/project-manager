@@ -1,4 +1,3 @@
-<!-- Natan Protector 205438542 Oriya Shimonian 213549926-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +15,13 @@
         </div>
     </header>   
 
-
     <!-- Container for main form -->
-
     <h1>New Project</h1>
 
-    <h3>Project Details</h3>
+    <h3 class="padding">Project Details</h3>
     <!-- Container for the form -->
     <div class="interface-container">
         <div class="form-container"> 
-        
             <div class="project-form-container">
                 <div class="form-group">
                     <label for="projectName">Project Name</label>
@@ -51,8 +47,13 @@
                     <label for="summary">Summary</label>
                     <textarea id="summary" name="summary" rows="4" required></textarea>
                 </div>
+
+                <div class="button-container form-group last-item">
+                    <button id="submit-button">Submit</button>
+                </div>
             </div>
-            
+
+            <h3 class="padding">Add staff member</h3>
             <div class="staff-form-container">
                 <div class="form-group">
                     <label for="staffName">Name</label>
@@ -69,14 +70,14 @@
                     <input type="text" id="staffRole" name="staffRole">
                 </div>
 
-                <button id="add-staff-button">Add</button>
+                <div class="button-container">
+                    <button id="add-staff-button">Add</button>
+                </div>
             </div>
 
             <div class="selected-staff-display">
                 <!-- Placeholder for displaying selected staff -->
             </div>
-
-            <button id="submit-button">Submit</button>
         </div>
     </div>
 
