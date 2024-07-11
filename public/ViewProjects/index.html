@@ -52,12 +52,17 @@
 
     <div class="Project-Popup" id="Project-Popup">
         
-        <div>
-            <h2 id="Project-Name-popup">Project Name:</h1>
-            <h3 id="Project-Manager-popup">Project Manager:</h1>
-            <h3 id="Project-Start-Date-popup">Start Date:</h1>
-            <h3>Description:</h1>
-            <p id="Project-Description-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, similique enim. Ipsum eos eveniet voluptatibus aspernatur adipisci impedit odit deserunt cupiditate placeat omnis. Veniam ipsa dolores fugit neque perferendis consequatur!</p>
+        <div class="view-project-popup-header">
+            <h2 id="Project-Name-popup">Project Name:</h2>
+            <h3 id="Project-Manager-popup">Project Manager:</h3>
+            <h3 id="Project-Start-Date-popup">Start Date:</h3>
+            <div>
+                <h3 class="description-container">Description:</h3>
+            <p id="Project-Description-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Sapiente, similique enim. Ipsum eos eveniet voluptatibus aspernatur adipisci impedit
+                odit deserunt cupiditate placeat omnis. Veniam ipsa dolores fugit neque perferendis
+                consequatur!</p>
+            </div>
         </div>
         
         <h4>Staff</h4>
@@ -77,12 +82,17 @@
         </div>
     </div>
 
-    <label for="sort-select">Sort By</label>
-    <select name="sort-select" id="">
-        <option value="project name">project name</option>
-        <option value="manager name">manager name</option>
-        <option value="start date">start date</option>
-    </select>
+    <div class="sort-container padding">
+        <label for="sort-options">Sort By:</label>
+        <div class="sort-buttons">
+            <button id="sort-by-name-asc">Sort by Project Name (Asc)</button>
+            <button id="sort-by-name-desc">Sort by Project Name (Desc)</button>
+            <button id="sort-by-manager-asc">Sort by Manager Name (Asc)</button>
+            <button id="sort-by-manager-desc">Sort by Manager Name (Desc)</button>
+            <button id="sort-by-start-date-asc">Sort by Start Date (Asc)</button>
+            <button id="sort-by-start-date-desc">Sort by Start Date (Desc)</button>
+        </div>
+    </div>
 
     <div class="interface-container">
 

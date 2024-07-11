@@ -37,6 +37,7 @@ require('dotenv').config();
 
 // Get validator class
 const Validator = require('./utils/validator');
+const { log } = require('console');
 
 const validator = new Validator();
 
@@ -205,8 +206,8 @@ async function updateProject(projectDetails, id) {
     if (projectDetails.name)
         project.name = projectDetails.name;
 
-    if (projectDetails.description)
-        project.description = projectDetails.description;
+    if (projectDetails.summary)
+        project.summary = projectDetails.summary;
 
     if (projectDetails.manager) {
 
@@ -289,6 +290,8 @@ async function AddImageToProject(ImageDetails, Project_id) {
     projects[Project_id].images.push(ImageDetails);
 
     await writeJsonFile(databasePath, projects);
+
+    console.log("Image added successfully", image);
 
     return {
         status: 200,

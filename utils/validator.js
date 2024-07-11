@@ -1,11 +1,20 @@
 const validator = require('validator');
 
+const isInteger= function(str) {
+    if (typeof str !== 'string') {
+      return false; // If not a string, return false
+    }
+  
+    const num = Number(str);
+    return Number.isInteger(num) && str.trim() !== '';
+}
+
 module.exports = class Validator {
 
     constructor() {
 
     }
-
+    
     validateNewProject(projectDetails) {
     
         if (!projectDetails.name || !projectDetails.summary || !projectDetails.manager || !projectDetails.start_date) {
@@ -24,7 +33,10 @@ module.exports = class Validator {
             return false;
         }
 
-        
+        if (isInteger(projectDetails.start_date) == false) {
+            console.log("test");
+            return false;
+        }
 
         return true;
 
@@ -72,7 +84,11 @@ module.exports = class Validator {
             });
         }
 
-        // no validation for start_date yet
+        if (projectDetails.start_date != undefined) {
+            if (isInteger(projectDetails.start_date) == false) {
+                return false;
+            }
+        }
 
         return true;
 

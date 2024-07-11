@@ -294,7 +294,6 @@ const addProjectImage = function(photoInfo, Project_id) {
     });
 }
 
-
 const addPhoto = async function(photoInfo, project) {
     try {
         await addProjectImage(photoInfo, project.id);
@@ -371,6 +370,45 @@ const deleteProjectHandler = async function() {
         }
     }
 }
+
+const displayProjects = function() {
+    console.log(projects, " projects");
+    // Clear the project container
+    projectContainer.innerHTML = '';
+
+    // Loop through each project
+    projects.forEach((project) => {
+
+        // Create project element
+        const projectElement = createProjectElement(project);
+        
+        projectContainer.appendChild(projectElement);
+    })
+}
+
+// function to sort the projects based on the selected criteria
+const sortProjects = function(criteria, order = 'asc') {
+    projects.sort((a, b) => {
+        let comparison = 0;
+        console.log(a, " a ", b, " b ");
+        switch(criteria) {
+            case 'project-name':
+                comparison = a.name.localeCompare(b.name);
+                break;
+            case 'manager-name':
+                comparison = a.manager.name.localeCompare(b.manager.name);
+                break;
+            case 'start-date':
+                comparison = a.start_date - b.start_date;
+                break;
+        }
+
+        return order === 'asc' ? comparison : -comparison;
+    });
+
+    displayProjects();
+}
+
 // ===== Event Listeners ======================================================================================================
 
 const editProject = function() {
@@ -385,6 +423,32 @@ const closeProjectPopup = function() {
     currentlySelectedProject = null;
 }
 
+//Add event listener for sorting dropdowns
+document.getElementById('sort-by-name-asc').addEventListener('click', () => {
+     sortProjects('project-name', 'asc');
+});
+   
+
+document.getElementById('sort-by-manager-asc').addEventListener('click', () => {
+    sortProjects('manager-name', 'asc');
+});
+
+document.getElementById('sort-by-start-date-asc').addEventListener('click', () => {
+    sortProjects('start-date', 'asc');
+});
+
+// Event Listeners for Descending Sorting
+document.getElementById('sort-by-name-desc').addEventListener('click', () => {
+    sortProjects('project-name', 'desc');
+});
+
+document.getElementById('sort-by-manager-desc').addEventListener('click', () => {
+    sortProjects('manager-name', 'desc');
+});
+
+document.getElementById('sort-by-start-date-desc').addEventListener('click', () => {
+    sortProjects('start-date', 'desc');
+});
 // Add event listener to the button
 photoSearchField.addEventListener('input', HandleTextInput);  // Add input event listener
 
@@ -513,11 +577,15 @@ const displayProjectInPopup = function(project) {
 
 const createProjectElement = function(project) {
 
-    console.log(project);
 
     // Create project element
     const projectElement = document.createElement('div');
     projectElement.classList.add('project');
+
+    projectElement.style.display = "grid";
+    projectElement.style.gridTemplateColumns = "1fr 1fr"
+    projectElement.style.padding = "10px";
+
 
     // Create project labels
     const projectId = document.createElement('label');
@@ -537,17 +605,22 @@ const createProjectElement = function(project) {
     startDate.textContent = `Start date: ${timestampToDate(project.start_date)}`;
 
     const labelContainer = document.createElement('div');
-    labelContainer.className = 'label-container';
+    labelContainer.className = 'label-container';    
+    labelContainer.style.display = "grid";
+    labelContainer.style.gridTemplateColumns = "1fr 1fr"
     labelContainer.appendChild(projectId);
     labelContainer.appendChild(projectName);
     labelContainer.appendChild(managerName);
     labelContainer.appendChild(startDate);
 
 
+
+
     const description = document.createElement('P');
     description.className = 'description';
     description.textContent = `Summary: ${project.summary}`;
     description.style.display = "block"
+    description.style.overflowWrap= "anywhere";
 
     // Create project view button
     const viewButton = document.createElement('button');
@@ -579,21 +652,6 @@ const createProjectElement = function(project) {
 
     return projectElement;
 }
-
-const displayProjects = function() {
-
-    // Clear the project container
-    projectContainer.innerHTML = '';
-
-    // Loop through each project
-    projects.forEach((project) => {
-
-        // Create project element
-        const projectElement = createProjectElement(project);
-        projectContainer.appendChild(projectElement);
-    })
-}
-
 
 const getProjects = function() {
     return new Promise((resolve, reject) => {
